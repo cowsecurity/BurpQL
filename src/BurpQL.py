@@ -19,8 +19,30 @@ class BurpQL:
     
     """
 
-    def __init__(self,URL,AUTH):
+    def __init__(self,URL:str,AUTH:str)-> None:
+        """
+        Initialization function: Takes Burp URL and Authorization token as input.
+        """
         self.URL = URL
         self.AUTH = AUTH
         try:
-            self.headers = {"Authorization":self.AUTH}
+            self.headers = {
+                    "Authorization":self.AUTH
+                            }
+            self.session = requests.get(url=URL,headers=self.headers)
+        except:
+            print("Unknown error occured!")
+
+    def getJSONResponse(self,msg)->str:
+        """
+        Parameters: 
+            msg
+            self
+        Returns: jsonified format of response
+        """
+        response = {"message":msg}
+        return json.dumps(response,indent=4,sort_keys=True)
+
+    def run_query(self,Query)->str:
+        """
+        """
