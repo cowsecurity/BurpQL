@@ -36,13 +36,25 @@ class BurpQL:
     def getJSONResponse(self,msg)->str:
         """
         Parameters: 
-            msg
+            msg 
             self
         Returns: jsonified format of response
         """
         response = {"message":msg}
         return json.dumps(response,indent=4,sort_keys=True)
 
-    def run_query(self,Query)->str:
+    def run_query(self, Query)-> str:
         """
+        Takes queries as input and returns their response
         """
+        if(self.burp_online):
+            try:
+                response = self.client.execute(Query)
+                return response # JSON
+            except Exception as e:
+                print(not_ok + " Error  : " + str(e))
+        else:
+            print(not_ok + " Error Burpsuite is not online/available.")
+
+    def create_site(self):
+        
