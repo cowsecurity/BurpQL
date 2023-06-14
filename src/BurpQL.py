@@ -57,4 +57,5 @@ class BurpQL:
             print(not_ok + " Error Burpsuite is not online/available.")
 
     def create_site(self):
-        
+        """
+        """
