@@ -75,4 +75,13 @@ def create_site(self, target_url)-> str:
     else:
         print(not_ok + " Error connecting with Burp Server")
 
-    
+def cancel_scan(self,scan_id):
+    """
+    """
+    if self.burp_online:
+        try:
+            query_variables = {
+
+            }
+
+    # TO do : Handle scans under a single function, improve queries
