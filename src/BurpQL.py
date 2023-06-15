@@ -56,6 +56,14 @@ class BurpQL:
         else:
             print(not_ok + " Error Burpsuite is not online/available.")
 
-    def create_site(self):
+    def create_site(self,target_url):
         """
         """
+        if(self.burp_online):
+            try:
+                Query = self.run_query(CREATE_SITE)
+                return Query
+            except Exception:
+                print(not_ok + " Error " + str(Exception))
+        else:
+            print(not_ok + " Error connecting with Burp Server")
