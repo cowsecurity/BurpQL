@@ -56,14 +56,23 @@ class BurpQL:
         else:
             print(not_ok + " Error Burpsuite is not online/available.")
 
-    def create_site(self,target_url):
-        """
-        """
-        if(self.burp_online):
-            try:
-                Query = self.run_query(CREATE_SITE)
-                return Query
-            except Exception:
-                print(not_ok + " Error " + str(Exception))
-        else:
-            print(not_ok + " Error connecting with Burp Server")
+def create_site(self, target_url)-> str:
+    """
+    """
+    if self.burp_online:
+        try:
+            query_variables = {
+                'name': target_url,
+                'parentID': self.parent_id,
+                'includedUrls': target_url,
+                'emailRecipients': []
+            }
+            response = requests.post(self.URL, json={'query': NEW_SITE, 'variables': query_variables})
+            data = response.json()
+            return data
+        except Exception as e:
+            print(not_ok + " Error: " + str(e))
+    else:
+        print(not_ok + " Error connecting with Burp Server")
+
+    
