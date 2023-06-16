@@ -43,14 +43,15 @@ class BurpQL:
         response = {"message":msg}
         return json.dumps(response,indent=4,sort_keys=True)
 
-    def run_query(self, Query)-> str:
+    def run_query(self, Query, query_variables)-> str:
         """
         Takes queries as input and returns their response
         """
         if(self.burp_online):
             try:
-                response = self.client.execute(Query)
-                return response # JSON
+                response = requests.post(self.URL, json={'query': Query, 'variables': query_variables})
+                data = response.json()
+                return data
             except Exception as e:
                 print(not_ok + " Error  : " + str(e))
         else:
@@ -67,9 +68,7 @@ def create_site(self, target_url)-> str:
                 'includedUrls': target_url,
                 'emailRecipients': []
             }
-            response = requests.post(self.URL, json={'query': NEW_SITE, 'variables': query_variables})
-            data = response.json()
-            return data
+            response = self.run_query('RUN_QUERY',query_variables)
         except Exception as e:
             print(not_ok + " Error: " + str(e))
     else:
@@ -84,4 +83,4 @@ def cancel_scan(self,scan_id):
 
             }
 
-    # TO do : Handle scans under a single function, improve queries
+    # TO do : improve queries
